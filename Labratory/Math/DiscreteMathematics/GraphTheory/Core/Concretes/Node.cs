@@ -1,17 +1,20 @@
+using System.Diagnostics.CodeAnalysis;
+using Labratory.Extensions;
+
 namespace Labratory;
 
 public struct Node(int data) : INode<int>
 {
     public int Id { get; private set; } = data;
 
-    public readonly int CompareTo(INode<int>? other)
+    public override readonly bool Equals([NotNullWhen(true)] object? obj)
     {
-        return Id.CompareTo(other?.Id);
+        return obj is Node node && GetHashCode() == node.GetHashCode();
     }
 
-    public readonly bool Equals(INode<int>? other)
+    public override readonly int GetHashCode()
     {
-        return CompareTo(other) == 0;
+        return Id.GetHashCode();
     }
 
     public override readonly string ToString()
@@ -24,8 +27,13 @@ public struct Node(int data) : INode<int>
         return new Node(id);
     }
 
-    public override readonly int GetHashCode()
+    public static bool operator ==(Node node1, Node node2)
     {
-        return Id.GetHashCode();
+        return node1.Equals(node2);
+    }
+
+    public static bool operator !=(Node node1, Node node2)
+    {
+        return node1.Equals(node2).Not();
     }
 }
