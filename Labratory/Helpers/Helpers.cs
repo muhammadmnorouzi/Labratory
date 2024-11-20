@@ -1,3 +1,4 @@
+using System.Runtime.Intrinsics.Arm;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -10,18 +11,17 @@ public static class Helpers
     public static int CombineHash<TData>(TData[] keys, bool sort)
         where TData : notnull
     {
-        string?[] string_keys = keys
-            .Select(x => x.ToString())
+        int[] hashes = keys
+            .Select(x => x.GetHashCode())
             .ToArray();
 
         if (sort)
         {
-            Array.Sort(string_keys);
+            Array.Sort(hashes);
         }
 
-        string combined = string.Concat(string_keys);
+        string combined = string.Join('-', hashes);
         byte[] hash = SHA256.HashData(Encoding.UTF8.GetBytes(combined));
-
-        return Convert.ToHexStringLower(hash).GetHashCode();
+        return Encoding.UTF8.GetString(hash).GetHashCode();
     }
 }
