@@ -1,4 +1,4 @@
-namespace Labratory;
+namespace Labratory.Mathematics.Discrete.GraphTheory.Core.Interfaces;
 
 public interface IEdge<TNode, TKey>
     where TNode : INode<TKey>

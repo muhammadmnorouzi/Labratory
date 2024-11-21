@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Labratory.Extensions;
+using Labratory.Mathematics.Discrete.GraphTheory.Core.Interfaces;
 
-namespace Labratory.Math.DiscreteMathematics.GraphTheory;
+namespace Labratory.Mathematics.Discrete.GraphTheory.Core.Concretes;
 
 public class Graph : IGraph<Node, Edge, int>
 {

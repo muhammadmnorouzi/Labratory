@@ -8,7 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Math\LinearAlgebra\" />
+    <Compile Remove="Math\**" />
+    <EmbeddedResource Remove="Math\**" />
+    <None Remove="Math\**" />
   </ItemGroup>
 
 </Project>

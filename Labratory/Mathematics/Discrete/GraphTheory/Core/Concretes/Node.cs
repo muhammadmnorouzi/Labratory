@@ -1,7 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using Labratory.Extensions;
+using Labratory.Mathematics.Discrete.GraphTheory.Core.Interfaces;
 
-namespace Labratory;
+namespace Labratory.Mathematics.Discrete.GraphTheory.Core.Concretes;
 
 public struct Node(int data) : INode<int>
 {

@@ -1,7 +1,8 @@
 using System.Diagnostics;
 using Labratory.Extensions;
+using Labratory.Mathematics.Discrete.GraphTheory.Core.Concretes;
 
-namespace Labratory.Math.DiscreteMathematics.GraphTheory.Algorithms;
+namespace Labratory.Mathematics.Discrete.GraphTheory.Algorithms;
 
 public static partial class GraphTheoryAlgorithms
 {
@@ -73,7 +74,7 @@ public static partial class GraphTheoryAlgorithms
     public static bool IsValidPruferSequence(IEnumerable<int> seq)
     {
         // TODO Throw exception
-        Debug.Assert(seq.Count() >= 1);
+        Debug.Assert(seq.Any());
 
         int seqSize = seq.Count();
         int vertexCount = seqSize + 2;
