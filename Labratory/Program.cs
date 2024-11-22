@@ -1,3 +1,4 @@
+using Labratory.Mathematics.Algebra.Linear.Algorithms;
 using Labratory.Mathematics.Algebra.Linear.Core.Concretes;
 
 namespace Labratory;
@@ -9,9 +10,8 @@ public class Program
         Matrix mat = new(5, 5);
         mat.Eye(2);
 
-        Matrix mat2 = new(5, 5);
-        mat2.Fill(5);
-
-        mat.Multiplicate(mat2).Print(Console.Out);
+        mat.Print(Console.Out);
+        Matrix neg = mat.Negate();
+        neg.Print(Console.Out);
     }
 }
