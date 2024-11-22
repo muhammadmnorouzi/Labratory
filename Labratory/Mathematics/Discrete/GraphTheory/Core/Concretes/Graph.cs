@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Labratory.Extensions;
+﻿using Labratory.Extensions;
 using Labratory.Mathematics.Discrete.GraphTheory.Core.Interfaces;
 
 namespace Labratory.Mathematics.Discrete.GraphTheory.Core.Concretes;
