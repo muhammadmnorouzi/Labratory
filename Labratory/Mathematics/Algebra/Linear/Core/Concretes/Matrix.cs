@@ -1,5 +1,4 @@
 using Labratory.Mathematics.Algebra.Linear.Core.Abstractions;
-using Labratory.Mathematics.Algebra.Linear.Core.Interfaces;
 
 namespace Labratory.Mathematics.Algebra.Linear.Core.Concretes;
 
