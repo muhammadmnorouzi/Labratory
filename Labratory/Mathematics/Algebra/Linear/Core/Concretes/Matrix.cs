@@ -1,25 +1,22 @@
+using Labratory.Mathematics.Algebra.Linear.Core.Abstractions;
+using Labratory.Mathematics.Algebra.Linear.Core.Interfaces;
+
 namespace Labratory.Mathematics.Algebra.Linear.Core.Concretes;
 
-public class Matrix
+public class Matrix(int rows, int cols) : MatrixBase<double>(rows, cols)
 {
-    public int Rows { get; }
-    public int Cols { get; }
-    private double[,] _mat { get; }
-
-    public Matrix(int rows, int cols)
+    public override ref double AtRef(int i, int j)
     {
-        Rows = rows;
-        Cols = cols;
-        _mat = new double[Rows, Cols];
+        return ref base.Mat[i, j];
     }
 
-    public ref double AtRef(int i, int j)
+    public override double At(int i, int j)
     {
-        return ref _mat[i, j];
+        return base.Mat[i, j];
     }
 
-    public double At(int i, int j)
+    public override MatrixBase<double> New(int rows, int cols)
     {
-        return _mat[i, j];
+        throw new NotImplementedException();
     }
 }

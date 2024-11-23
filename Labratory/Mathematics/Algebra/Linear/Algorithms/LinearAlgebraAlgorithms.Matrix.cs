@@ -1,5 +1,7 @@
 using System.Diagnostics;
+using Labratory.Mathematics.Algebra.Linear.Core.Abstractions;
 using Labratory.Mathematics.Algebra.Linear.Core.Concretes;
+using Labratory.Mathematics.Algebra.Linear.Core.Interfaces;
 
 namespace Labratory.Mathematics.Algebra.Linear.Algorithms;
 
@@ -23,9 +25,11 @@ public static partial class LinearAlgebraAlgorithms
         return result;
     }
 
+    // A is skew-symmetric if it equals the negative of its transpose; that is, if A ¼ ÿAT.
+
     public static Matrix Multiplicate(this Matrix mat, double value)
     {
-        mat.Operation((_, i, j) => mat.AtRef(i, j) *= value);
+        mat.Operate<Matrix, double>((i, j) => mat.AtRef(i, j) *= value);
         return mat;
     }
 
@@ -35,13 +39,14 @@ public static partial class LinearAlgebraAlgorithms
         Debug.Assert(left.Rows == right.Rows);
         Debug.Assert(left.Cols == right.Cols);
 
-        left.Operation((mat, i, j) => mat.AtRef(i, j) = left.At(i, j) + right.At(i, j));
+        left.Operate<Matrix, double>((i, j) => left.AtRef(i, j) = left.At(i, j) + right.At(i, j));
+
         return left;
     }
 
     public static Matrix Add(this Matrix mat, double value)
     {
-        mat.Operation((_, i, j) => mat.AtRef(i, j) += value);
+        mat.Operate<Matrix, double>((i, j) => mat.AtRef(i, j) += value);
         return mat;
     }
 
@@ -51,13 +56,15 @@ public static partial class LinearAlgebraAlgorithms
         Debug.Assert(left.Rows == right.Rows);
         Debug.Assert(left.Cols == right.Cols);
 
-        left.Operation((mat, i, j) => mat.AtRef(i, j) = left.At(i, j) - right.At(i, j));
+        left.Operate<Matrix, double>((i, j) => left.AtRef(i, j) = left.At(i, j) - right.At(i, j));
+
         return left;
     }
 
     public static Matrix Subtract(this Matrix mat, double value)
     {
-        mat.Operation((_, i, j) => mat.AtRef(i, j) -= value);
+        mat.Operate<Matrix, double>((i, j) => mat.AtRef(i, j) -= value);
+
         return mat;
     }
 
@@ -67,45 +74,36 @@ public static partial class LinearAlgebraAlgorithms
         Debug.Assert(left.Rows == right.Rows);
         Debug.Assert(left.Cols == right.Cols);
 
-        left.Operation((mat, i, j) => mat.AtRef(i, j) = left.At(i, j) * right.At(i, j));
+        left.Operate<Matrix, double>((i, j) => left.AtRef(i, j) = left.At(i, j) * right.At(i, j));
+
         return left;
     }
 
     public static Matrix Negate(this Matrix mat)
     {
-        mat.Operation((_, i, j) => mat.AtRef(i, j) = -mat.At(i, j));
+        mat.Operate<Matrix, double>((i, j) => mat.AtRef(i, j) = -mat.At(i, j));
+
         return mat;
     }
 
-    public static Matrix Transpose(this Matrix mat)
+    public static TMatrix Transpose<TMatrix, TData>(this TMatrix mat)
+    where TMatrix : MatrixBase<TData>
     {
-        Matrix transposed = new(mat.Cols, mat.Rows);
-        mat.Operation((mat, i, j) => transposed.AtRef(j, i) = mat.At(i, j));
+        TMatrix transposed = (TMatrix)mat.New(mat.Cols, mat.Rows);
+        mat.Operate<TMatrix, TData>((i, j) => transposed.AtRef(j, i) = mat.At(i, j));
         return transposed;
     }
 
-    public static Matrix Fill(this Matrix mat, double value)
+    public static TMatrix Fill<TMatrix, TData>(this TMatrix mat, TData value)
+    where TMatrix : MatrixBase<TData>
     {
-        mat.Operation((mat, i, j) => mat.AtRef(i, j) = value);
-        return mat;
-    }
-
-    public static Matrix Operation(this Matrix mat, Action<Matrix, int, int> operation)
-    {
-        for (int i = 0; i < mat.Rows; i++)
-        {
-            for (int j = 0; j < mat.Cols; j++)
-            {
-                operation(mat, i, j);
-            }
-        }
-
+        mat.Operate<TMatrix, TData>((i, j) => mat.AtRef(i, j) = value);
         return mat;
     }
 
     public static Matrix Randomize(this Matrix mat)
     {
-        mat.Operation((mat, i, j) => mat.AtRef(i, j) = Random.Shared.NextDouble());
+        mat.Operate<Matrix, double>((i, j) => mat.AtRef(i, j) = Random.Shared.NextDouble());
 
         return mat;
     }
@@ -158,10 +156,12 @@ public static partial class LinearAlgebraAlgorithms
         return mat;
     }
 
-    public static Matrix Clone(this Matrix mat)
+    public static TMatrix Copy<TMatrix, TData>(this TMatrix mat)
+    where TMatrix : MatrixBase<TData>, new()
     {
-        Matrix result = new(mat.Rows, mat.Cols);
-        mat.Operation((matrix, i, j) => result.AtRef(i, j) = matrix.At(i, j));
-        return result;
+        TMatrix destination = (TMatrix)mat.New(mat.Rows, mat.Cols);
+        mat.Operate<TMatrix, TData>((i, j) => destination.AtRef(i, j) = mat.At(i, j));
+
+        return destination;
     }
 }
