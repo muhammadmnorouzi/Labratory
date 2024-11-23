@@ -31,4 +31,11 @@ public partial class MatrixTests
     {
         Assert.Throws<LaboratoryException>(() => new Matrix(rows, cols));
     }
+
+    [Fact]
+    public void ShloudReturnCorrectShapeOfMatrix()
+    {
+        Matrix matrix = new(10, 15);
+        matrix.Shape().ShouldBe((10, 15));
+    }
 }

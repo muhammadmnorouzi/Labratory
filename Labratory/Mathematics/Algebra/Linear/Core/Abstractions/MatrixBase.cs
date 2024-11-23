@@ -5,7 +5,7 @@ using Labratory.Mathematics.Algebra.Linear.Core.Interfaces;
 namespace Labratory.Mathematics.Algebra.Linear.Core.Abstractions;
 
 public abstract class MatrixBase<TData> : IMatrix<TData>
-where TData: notnull
+where TData : notnull
 {
     public int Rows { get; }
     public int Cols { get; }
@@ -14,7 +14,7 @@ where TData: notnull
     public MatrixBase(int rows, int cols)
     {
         LaboratoryException.ThrowIfNot(
-            condition:rows > 0 && cols > 0,
+            condition: rows > 0 && cols > 0,
             message: $"Creating new instance inheriting {nameof(MatrixBase<TData>)} with non-positive {nameof(rows)} and {nameof(cols)} is not allowed",
             exceptionType: LaboratoryExceptionType.InvalidArgument);
 
@@ -34,7 +34,7 @@ where TData: notnull
         {
             if (matrix.Rows == Rows && matrix.Cols == Cols)
             {
-                return this.Generate<MatrixBase<TData> , TData , bool>((i, j) => At(i , j).Equals(matrix.At(i, j))).All(x => x);
+                return this.Generate<MatrixBase<TData>, TData, bool>((i, j) => At(i, j).Equals(matrix.At(i, j))).All(x => x);
             }
         }
 
@@ -52,12 +52,17 @@ where TData: notnull
             hash = hash * prime + Cols;
 
             foreach (TData value in Mat)
-            
+
             {
                 hash = hash * prime + value.GetHashCode();
             }
 
             return hash;
         }
+    }
+
+    public (int Rows, int Cols) Shape()
+    {
+        return (Rows, Cols);
     }
 }

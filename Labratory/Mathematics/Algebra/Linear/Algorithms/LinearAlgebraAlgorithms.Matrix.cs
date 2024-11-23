@@ -87,6 +87,7 @@ public static partial class LinearAlgebraAlgorithms
 
     public static TMatrix Transpose<TMatrix, TData>(this TMatrix mat)
     where TMatrix : MatrixBase<TData>
+    where TData : notnull
     {
         TMatrix transposed = (TMatrix)mat.New(mat.Cols, mat.Rows);
         mat.Operate<TMatrix, TData>((i, j) => transposed.AtRef(j, i) = mat.At(i, j));
@@ -95,6 +96,7 @@ public static partial class LinearAlgebraAlgorithms
 
     public static TMatrix Fill<TMatrix, TData>(this TMatrix mat, TData value)
     where TMatrix : MatrixBase<TData>
+    where TData : notnull
     {
         mat.Operate<TMatrix, TData>((i, j) => mat.AtRef(i, j) = value);
         return mat;
@@ -157,6 +159,7 @@ public static partial class LinearAlgebraAlgorithms
 
     public static TMatrix Copy<TMatrix, TData>(this TMatrix mat)
     where TMatrix : MatrixBase<TData>, new()
+    where TData : notnull
     {
         TMatrix destination = (TMatrix)mat.New(mat.Rows, mat.Cols);
         mat.Operate<TMatrix, TData>((i, j) => destination.AtRef(i, j) = mat.At(i, j));

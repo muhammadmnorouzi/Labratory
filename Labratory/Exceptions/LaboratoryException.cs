@@ -18,7 +18,7 @@ public sealed class LaboratoryException : Exception
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static void ThrowIfNot(bool condition , string message, LaboratoryExceptionType exceptionType = LaboratoryExceptionType.Internal)
+    internal static void ThrowIfNot(bool condition, string message, LaboratoryExceptionType exceptionType = LaboratoryExceptionType.Internal)
     {
         if (condition.Not())
         {
