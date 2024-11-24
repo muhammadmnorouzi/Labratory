@@ -24,6 +24,14 @@ where TData : notnull
         Mat = new TData[Rows, Cols];
     }
 
+    public MatrixBase(TData[,] mat)
+    {
+        Rows = mat.GetLength(0);
+        Cols = mat.GetLength(1);
+
+        Mat = mat;
+    }
+
     public abstract TData At(int i, int j);
     public abstract ref TData AtRef(int i, int j);
     public abstract MatrixBase<TData> New(int rows, int cols);
