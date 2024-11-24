@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Labratory.Exceptions;
 using Labratory.Mathematics.Algebra.Linear.Core.Abstractions;
 using Labratory.Mathematics.Algebra.Linear.Core.Concretes;
 
@@ -8,7 +9,11 @@ public static partial class LinearAlgebraAlgorithms
 {
     public static Matrix Multiplicate(this Matrix left, Matrix right)
     {
-        // TODO: Validate this.Cols == other.Rows and throw exception when needed
+        LaboratoryException.ThrowIfNot(
+            left.Cols == right.Rows,
+            "Matrix multiplication is only defined when left.Cols == right.Rows",
+            LaboratoryExceptionType.InvalidArgument);
+
         Debug.Assert(left.Cols == right.Rows);
 
         Matrix result = new(left.Rows, right.Cols);
@@ -24,7 +29,18 @@ public static partial class LinearAlgebraAlgorithms
         return result;
     }
 
-    // A is skew-symmetric if it equals the negative of its transpose; that is, if A ¼ ÿAT.
+    public static bool IsSkewSymmetric(this Matrix mat)
+    {
+        if (mat.Rows != mat.Cols)
+        {
+            return false;
+        }
+
+        return mat
+            .Generate<Matrix, double, bool?>((i, j) => mat.At(i, j).Equals(-mat.At(j, i)))
+            .All(x => x == true);
+    }
+
 
     public static Matrix Multiplicate(this Matrix mat, double value)
     {
@@ -158,7 +174,7 @@ public static partial class LinearAlgebraAlgorithms
     }
 
     public static TMatrix Copy<TMatrix, TData>(this TMatrix mat)
-    where TMatrix : MatrixBase<TData>, new()
+    where TMatrix : MatrixBase<TData>
     where TData : notnull
     {
         TMatrix destination = (TMatrix)mat.New(mat.Rows, mat.Cols);

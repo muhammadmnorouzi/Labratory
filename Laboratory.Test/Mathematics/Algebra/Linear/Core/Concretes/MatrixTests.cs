@@ -38,4 +38,13 @@ public partial class MatrixTests
         Matrix matrix = new(10, 15);
         matrix.Shape().ShouldBe((10, 15));
     }
+
+    [Fact]
+    public void ShloudReturElementRefAt()
+    {
+        Matrix matrix = new(10, 15);
+        matrix.At(5, 5).ShouldBe(0);
+        matrix.AtRef(5, 5) = 10;
+        matrix.At(5, 5).ShouldBe(10);
+    }
 }
