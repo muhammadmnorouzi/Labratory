@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Labratory.Exceptions;
+using Labratory.Generics;
 using Labratory.Mathematics.Algebra.Linear.Core.Concretes;
 
 namespace Labratory.Mathematics.Algebra.Linear.Algorithms;
@@ -148,6 +149,29 @@ public static partial class LinearAlgebraAlgorithms
             "Determinant is only defined for square matrices!",
             LaboratoryExceptionType.InvalidArgument);
 
-        throw new NotImplementedException();
+        IEnumerable<IDictionary<int,int>> permutations = Enumerable.Range(0 , mat.Rows).Permutate();
+
+        double determinant = 0;
+
+        foreach(IDictionary<int, int> permutation in permutations)
+        {
+            double middle = 1;
+            double sign= 0;
+
+            sign = (1 + permutation[1]) % 2 == 0
+                ? 1
+                : -1;
+
+            for(int i = 0; i < mat.Rows; ++i)
+            {
+                middle *= mat.At(i , permutation[i]);
+            }
+
+            middle *= sign;
+
+            determinant += middle;
+        }
+
+        return determinant;
     }
 }

@@ -95,7 +95,7 @@ public static partial class GraphTheoryAlgorithms
         {
             foreach (int i in nonVisited)
             {
-                foreach (var item in GeneratePruferSequenceInternal(seqSize, nonVisited, [.. current, i]))
+                foreach (IEnumerable<int> item in GeneratePruferSequenceInternal(seqSize, nonVisited, [.. current, i]))
                 {
                     yield return item;
                 }
