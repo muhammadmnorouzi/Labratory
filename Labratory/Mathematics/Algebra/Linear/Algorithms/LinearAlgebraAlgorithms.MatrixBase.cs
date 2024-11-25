@@ -118,4 +118,42 @@ public static partial class LinearAlgebraAlgorithms
 
         return subMatrix;
     }
+
+    public static TMatrix SubMatrix<TMatrix, TData>(this TMatrix mat, int rowToSkip, int colToSkip)
+        where TMatrix : MatrixBase<TData>
+        where TData : notnull
+    {
+        // TODO: validate ranges and throw exception with proper error message if required@
+
+        int rows = mat.Rows;
+        int cols = mat.Cols;
+        TMatrix subMatrix = (TMatrix)mat.New(rows - 1, cols - 1);
+
+        int rowIndex = 0;
+
+        for (int i = 0; i < rows; i++)
+        {
+            if (i == rowToSkip)
+            {
+                continue;
+            }
+
+            int colIndex = 0;
+
+            for (int j = 0; j < cols; j++)
+            {
+                if (j == colToSkip)
+                {
+                    continue;
+                }
+
+                subMatrix.AtRef(rowIndex, colIndex) = mat.At(i, j);
+                ++colIndex;
+            }
+
+            rowIndex++;
+        }
+
+        return subMatrix;
+    }
 }

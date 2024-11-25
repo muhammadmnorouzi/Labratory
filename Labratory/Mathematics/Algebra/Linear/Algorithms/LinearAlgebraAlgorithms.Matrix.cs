@@ -142,29 +142,55 @@ public static partial class LinearAlgebraAlgorithms
         return mat;
     }
 
-    public static double Determinant(this Matrix mat)
+    public static double Determinant(this Matrix mat, bool permutation = false)
     {
         LaboratoryException.ThrowIfNot(
             mat.Rows == mat.Cols,
             "Determinant is only defined for square matrices!",
             LaboratoryExceptionType.InvalidArgument);
 
-        IEnumerable<IDictionary<int,int>> permutations = Enumerable.Range(0 , mat.Rows).Permutate();
+        return permutation
+            ? mat.DeterminantPermutation()
+            : mat.DeterminantRecursive();
+    }
+
+    public static double DeterminantRecursive(this Matrix mat)
+    {
+        double det = 0;
+
+        if (mat.Rows == 1)
+        {
+            return mat.At(0, 0);
+        }
+        if (mat.Rows == 2)
+        {
+            det = mat.At(0, 0) * mat.At(1, 1) - mat.At(0, 1) * mat.At(1, 0);
+        }
+        else
+        {
+            for (int j = 0; j < mat.Cols; j++)
+            {
+                det += mat.At(0, j) * ((j % 2 == 1) ? -1 : 1) * mat.SubMatrix<Matrix, double>(rowToSkip: 0, colToSkip: j).DeterminantRecursive();
+            }
+        }
+
+        return det;
+    }
+
+    public static double DeterminantPermutation(this Matrix mat)
+    {
+        IEnumerable<IDictionary<int, int>> permutations = Enumerable.Range(0, mat.Rows).Permutate();
 
         double determinant = 0;
 
-        foreach(IDictionary<int, int> permutation in permutations)
+        foreach (IDictionary<int, int> permutation in permutations)
         {
             double middle = 1;
-            double sign= 0;
+            double sign = PermutationSign([.. permutation.Values]);
 
-            sign = (1 + permutation[1]) % 2 == 0
-                ? 1
-                : -1;
-
-            for(int i = 0; i < mat.Rows; ++i)
+            for (int i = 0; i < mat.Rows; ++i)
             {
-                middle *= mat.At(i , permutation[i]);
+                middle *= mat.At(permutation[i], i);
             }
 
             middle *= sign;
@@ -173,5 +199,28 @@ public static partial class LinearAlgebraAlgorithms
         }
 
         return determinant;
+    }
+
+    public static int PermutationSign(this int[] permutation)
+    {
+        return (CountInversions(permutation) % 2 == 0) ? 1 : -1;
+    }
+
+    private static int CountInversions(int[] permutation)
+    {
+        // TODO: validate if the input is a permutation, throw exception if invalid
+
+        int inversions = 0;
+
+        for (int i = 0; i < permutation.Length; i++)
+        {
+            for (int j = i + 1; j < permutation.Length; j++)
+            {
+                if (permutation[i] > permutation[j])
+                    inversions++;
+            }
+        }
+
+        return inversions;
     }
 }

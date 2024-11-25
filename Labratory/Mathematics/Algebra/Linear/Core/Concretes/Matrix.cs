@@ -19,6 +19,6 @@ public class Matrix : MatrixBase<double>
 
     public override MatrixBase<double> New(int rows, int cols)
     {
-        throw new NotImplementedException();
+        return new Matrix(rows, cols);
     }
 }
