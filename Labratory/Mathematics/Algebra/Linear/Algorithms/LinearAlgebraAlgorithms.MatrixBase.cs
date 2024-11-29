@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Labratory.Exceptions;
+using Labratory.Extensions;
 using Labratory.Mathematics.Algebra.Linear.Core.Abstractions;
 
 namespace Labratory.Mathematics.Algebra.Linear.Algorithms;
@@ -174,15 +175,38 @@ public static partial class LinearAlgebraAlgorithms
         return mat;
     }
 
-      public static bool IsEye<TMatrix, TData>(this TMatrix mat  , TData value)
-        where TMatrix : MatrixBase<TData>
-        where TData : notnull
+    public static bool IsEye<TMatrix, TData>(this TMatrix mat, TData value)
+      where TMatrix : MatrixBase<TData>
+      where TData : notnull
     {
         LaboratoryException.ThrowIfNot(
             mat.Rows == mat.Cols,
             $"{nameof(IsEye)} is only defined for square matrices.",
             LaboratoryExceptionType.InvalidArgument);
-        
-        return mat.Generate<TMatrix, TData, bool>((i , j) => mat.At(i ,j).Equals( i == j ? value : default)).All(x => x);
+
+        return mat.Generate<TMatrix, TData, bool>((i, j) => mat.At(i, j).Equals(i == j ? value : mat.Default())).All(x => x);
+    }
+
+    public static bool IsDiagonal<TMatrix, TData>(this TMatrix mat)
+        where TMatrix : MatrixBase<TData>
+        where TData : notnull
+    {
+        if (Enumerable.Range(0, Math.Min(mat.Rows, mat.Cols)).Select(i => mat.IsDefault(mat.At(i, i)).Not()).Any().Not())
+        {
+            return false;
+        }
+
+        for (int i = 0; i < mat.Rows; i++)
+        {
+            for (int j = 0; j < mat.Cols; j++)
+            {
+                if (i != j && mat.IsDefault(mat.At(i, j)).Not())
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

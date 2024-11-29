@@ -36,6 +36,8 @@ where TData : notnull
     public abstract TData At(int i, int j);
     public abstract ref TData AtRef(int i, int j);
     public abstract MatrixBase<TData> New(int rows, int cols);
+    public abstract bool IsDefault(TData value);
+    public abstract TData Default();
 
     public override bool Equals(object? obj)
     {

@@ -9,16 +9,26 @@ public class Matrix : MatrixBase<double>
 
     public override ref double AtRef(int i, int j)
     {
-        return ref base.Mat[i, j];
+        return ref Mat[i, j];
     }
 
     public override double At(int i, int j)
     {
-        return base.Mat[i, j];
+        return Mat[i, j];
     }
 
     public override MatrixBase<double> New(int rows, int cols)
     {
         return new Matrix(rows, cols);
+    }
+
+    public override bool IsDefault(double value)
+    {
+        return value - 0.0D <= double.Epsilon;
+    }
+
+    public override double Default()
+    {
+        return 0.0D;
     }
 }

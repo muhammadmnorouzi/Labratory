@@ -47,7 +47,7 @@ public partial class MatrixTests
         matrix.AtRef(5, 5) = 10;
         matrix.At(5, 5).ShouldBe(10);
     }
-    
+
     [Fact]
     public void ShouldReturnTrue()
     {
