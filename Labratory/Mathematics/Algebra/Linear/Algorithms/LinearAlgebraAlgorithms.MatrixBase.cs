@@ -191,15 +191,17 @@ public static partial class LinearAlgebraAlgorithms
         where TMatrix : MatrixBase<TData>
         where TData : notnull
     {
-        if (Enumerable.Range(0, Math.Min(mat.Rows, mat.Cols)).Select(i => mat.IsDefault(mat.At(i, i)).Not()).Any().Not())
-        {
-            return false;
-        }
+        bool allDiagonalDefault= true;
 
         for (int i = 0; i < mat.Rows; i++)
         {
             for (int j = 0; j < mat.Cols; j++)
             {
+                if (i == j && mat.IsDefault(mat.At(i, j)).Not())
+                {
+                    allDiagonalDefault =  false;
+                }
+
                 if (i != j && mat.IsDefault(mat.At(i, j)).Not())
                 {
                     return false;
@@ -207,6 +209,6 @@ public static partial class LinearAlgebraAlgorithms
             }
         }
 
-        return true;
+        return allDiagonalDefault.Not();
     }
 }
