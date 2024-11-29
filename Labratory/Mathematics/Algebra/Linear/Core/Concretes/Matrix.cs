@@ -24,11 +24,17 @@ public class Matrix : MatrixBase<double>
 
     public override bool IsDefault(double value)
     {
-        return value - 0.0D <= double.Epsilon;
+        return ElementsEqual(value, Default());
     }
 
     public override double Default()
     {
-        return 0.0D;
+        return default;
+    }
+
+    public override bool ElementsEqual(double left, double right)
+    {
+
+        return Math.Abs(left - right) <= double.Epsilon;
     }
 }

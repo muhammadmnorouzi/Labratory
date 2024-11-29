@@ -191,7 +191,7 @@ public static partial class LinearAlgebraAlgorithms
         where TMatrix : MatrixBase<TData>
         where TData : notnull
     {
-        bool allDiagonalDefault= true;
+        bool allDiagonalDefault = true;
 
         for (int i = 0; i < mat.Rows; i++)
         {
@@ -199,7 +199,7 @@ public static partial class LinearAlgebraAlgorithms
             {
                 if (i == j && mat.IsDefault(mat.At(i, j)).Not())
                 {
-                    allDiagonalDefault =  false;
+                    allDiagonalDefault = false;
                 }
 
                 if (i != j && mat.IsDefault(mat.At(i, j)).Not())

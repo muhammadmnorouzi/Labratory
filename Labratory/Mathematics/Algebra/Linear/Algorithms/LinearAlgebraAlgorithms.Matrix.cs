@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Labratory.Exceptions;
+using Labratory.Extensions;
 using Labratory.Generics;
 using Labratory.Mathematics.Algebra.Linear.Core.Concretes;
 
@@ -191,6 +192,52 @@ public static partial class LinearAlgebraAlgorithms
         }
 
         return determinant;
+    }
+
+    public static bool IsInRowReducedForm(this Matrix mat)
+    {
+        int minCol = 0;
+        bool allOtherShouldBeZero = false;
+
+        for (int i = 0; i < mat.Rows; i++)
+        {
+            bool firstOneSeen = false;
+
+            for (int j = 0; j < mat.Cols; j++)
+            {
+                if (allOtherShouldBeZero && mat.ElementsEqual(mat.At(i, j), 0.0D).Not())
+                {
+                    return false;
+                }
+
+                if (firstOneSeen.Not())
+                {
+                    if (mat.ElementsEqual(mat.At(i, j), 1.0D))
+                    {
+                        if (minCol > j)
+                        {
+                            return false;
+                        }
+
+                        minCol = j + 1;
+                        firstOneSeen = true;
+                    }
+                    else if (mat.ElementsEqual(mat.At(i, j), 0.0D).Not())
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            if (firstOneSeen.Not())
+            {
+                allOtherShouldBeZero = true;
+            }
+
+        }
+
+        return true;
+
     }
 
     public static int PermutationSign(this int[] permutation)
