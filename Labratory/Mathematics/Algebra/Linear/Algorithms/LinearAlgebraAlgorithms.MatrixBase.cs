@@ -78,6 +78,13 @@ public static partial class LinearAlgebraAlgorithms
         return mat;
     }
 
+    public static bool IsFilled<TMatrix, TData>(this TMatrix mat, TData value)
+    where TMatrix : MatrixBase<TData>
+    where TData : notnull
+    {
+        return mat.Generate<TMatrix, TData, bool>((i, j) => mat.ElementsEqual(mat.AtRef(i, j) , value)).All(x => x);
+    }
+
     public static IEnumerable<TData> Row<TMatrix, TData>(this TMatrix mat, int i)
       where TMatrix : MatrixBase<TData>
         where TData : notnull
