@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using Labratory.Exceptions;
 using Labratory.Mathematics.Algebra.Linear.Core.Abstractions;
 
 namespace Labratory.Mathematics.Algebra.Linear.Algorithms;
@@ -155,5 +157,32 @@ public static partial class LinearAlgebraAlgorithms
         }
 
         return subMatrix;
+    }
+
+    public static TMatrix Eye<TMatrix, TData>(this TMatrix mat, TData value)
+        where TMatrix : MatrixBase<TData>
+        where TData : notnull
+    {
+        // TODO: this.Rows == this.Cols
+        Debug.Assert(mat.Rows == mat.Cols);
+
+        for (int i = 0; i < mat.Rows; i++)
+        {
+            mat.AtRef(i, i) = value;
+        }
+
+        return mat;
+    }
+
+      public static bool IsEye<TMatrix, TData>(this TMatrix mat  , TData value)
+        where TMatrix : MatrixBase<TData>
+        where TData : notnull
+    {
+        LaboratoryException.ThrowIfNot(
+            mat.Rows == mat.Cols,
+            $"{nameof(IsEye)} is only defined for square matrices.",
+            LaboratoryExceptionType.InvalidArgument);
+        
+        return mat.Generate<TMatrix, TData, bool>((i , j) => mat.At(i ,j).Equals( i == j ? value : default)).All(x => x);
     }
 }

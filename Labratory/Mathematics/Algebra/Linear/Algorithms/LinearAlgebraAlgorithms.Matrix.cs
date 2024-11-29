@@ -11,7 +11,7 @@ public static partial class LinearAlgebraAlgorithms
     {
         LaboratoryException.ThrowIfNot(
             left.Cols == right.Rows,
-            "Matrix multiplication is only defined when left.Cols == right.Rows",
+            "Matrix multiplication is only defined when left.Cols == right.Rows.",
             LaboratoryExceptionType.InvalidArgument);
 
         Debug.Assert(left.Cols == right.Rows);
@@ -114,15 +114,7 @@ public static partial class LinearAlgebraAlgorithms
 
     public static Matrix Eye(this Matrix mat, double value = 1.0D)
     {
-        // TODO: this.Rows == this.Cols
-        Debug.Assert(mat.Rows == mat.Cols);
-
-        for (int i = 0; i < mat.Rows; i++)
-        {
-            mat.AtRef(i, i) = value;
-        }
-
-        return mat;
+        return mat.Eye<Matrix, double>(value);
     }
 
     public static Matrix Print(this Matrix mat, TextWriter writer)
