@@ -1,4 +1,5 @@
 using Labratory.Exceptions;
+using Labratory.Extensions;
 using Labratory.Mathematics.Algebra.Linear.Algorithms;
 using Labratory.Mathematics.Algebra.Linear.Core.Interfaces;
 
@@ -67,6 +68,16 @@ where TData : notnull
 
             return hash;
         }
+    }
+
+    public static bool operator ==(MatrixBase<TData> left, MatrixBase<TData> right)
+    {
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(MatrixBase<TData> left, MatrixBase<TData> right)
+    {
+        return left.Equals(right).Not();
     }
 
     public (int Rows, int Cols) Shape()
