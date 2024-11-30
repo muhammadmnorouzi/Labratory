@@ -35,6 +35,6 @@ public class Matrix : MatrixBase<double>
     public override bool ElementsEqual(double left, double right)
     {
 
-        return Math.Abs(left - right) <= double.Epsilon;
+        return Math.Abs(left - right) < double.Epsilon;
     }
 }

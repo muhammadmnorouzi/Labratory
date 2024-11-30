@@ -82,7 +82,7 @@ public static partial class LinearAlgebraAlgorithms
     where TMatrix : MatrixBase<TData>
     where TData : notnull
     {
-        return mat.Generate<TMatrix, TData, bool>((i, j) => mat.ElementsEqual(mat.AtRef(i, j) , value)).All(x => x);
+        return mat.Generate<TMatrix, TData, bool>((i, j) => mat.ElementsEqual(mat.AtRef(i, j), value)).All(x => x);
     }
 
     public static IEnumerable<TData> Row<TMatrix, TData>(this TMatrix mat, int i)

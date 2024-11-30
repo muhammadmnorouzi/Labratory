@@ -262,4 +262,103 @@ public static partial class LinearAlgebraAlgorithms
 
         return inversions;
     }
+
+    public static Matrix SwapRows(this Matrix mat, int row1, int row2)
+    {
+        for (int j = 0; j < mat.Cols; j++)
+        {
+            (mat.AtRef(row1, j), mat.AtRef(row2, j)) = (mat.At(row2, j), mat.At(row1, j));
+        }
+
+        return mat;
+    }
+
+    public static Matrix SwapCols(this Matrix mat, int col1, int col2)
+    {
+        for (int i = 0; i < mat.Rows; i++)
+        {
+            (mat.AtRef(i, col1), mat.AtRef(i, col2)) = (mat.At(i, col2), mat.At(i, col1));
+        }
+
+        return mat;
+    }
+
+    public static Matrix ScaleRow(this Matrix mat, int row, double scalar)
+    {
+        // TODO: scalar can not be 0
+        // TODO: row validation
+
+        for (int j = 0; j < mat.Cols; j++)
+        {
+            mat.AtRef(row, j) *= scalar;
+        }
+
+        return mat;
+    }
+
+    public static Matrix TransferToRowReduced(this Matrix mat)
+    {
+        return mat.TransferToRowReducedInternal();
+    }
+
+    public static Matrix SetRow(this Matrix mat, int row, double[] values)
+    {
+        // TODO: validate row
+        // TODO: validate values.Length == mat.Cols
+        Debug.Assert(row < mat.Rows);
+        Debug.Assert(values.Length == mat.Cols);
+
+        for (int j = 0; j < values.Length; j++)
+        {
+            mat.AtRef(row, j) = values[j];
+        }
+
+        return mat;
+    }
+
+    private static Matrix TransferToRowReducedInternal(this Matrix mat, int colToProcess = 0, int rowToProcess = 0)
+    {
+        if (colToProcess >= mat.Cols || rowToProcess >= mat.Rows)
+        {
+            return mat;
+        }
+
+        int pivotRow = -1;
+        for (int i = rowToProcess; i < mat.Rows; i++)
+        {
+            if (mat.ElementsEqual(mat.At(i, colToProcess), 0.0D).Not())
+            {
+                pivotRow = i;
+                break;
+            }
+        }
+
+        if (pivotRow == -1)
+        {
+            return mat.TransferToRowReducedInternal(colToProcess + 1, rowToProcess);
+        }
+
+        if (pivotRow != rowToProcess)
+        {
+            mat.SwapRows(rowToProcess, pivotRow);
+        }
+
+        double pivotValue = mat.At(rowToProcess, colToProcess);
+        mat.ScaleRow(rowToProcess, 1.0D / pivotValue);
+
+        for (int i = 0; i < mat.Rows; i++)
+        {
+            if (i == rowToProcess) continue;
+
+            double factor = mat.At(i, colToProcess);
+
+            double[] newRowValues = mat.Row<Matrix, double>(i)
+                .Select((value, col) => value - factor * mat.At(rowToProcess, col))
+                .ToArray();
+
+            mat.SetRow(i, newRowValues);
+        }
+
+        return mat.TransferToRowReducedInternal(colToProcess + 1, rowToProcess + 1);
+    }
 }
