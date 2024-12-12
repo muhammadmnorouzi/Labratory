@@ -2,7 +2,7 @@ using System.Runtime.CompilerServices;
 
 namespace Labratory.Extensions;
 
-public static class Extensions
+public static partial class Extensions
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool Not(this bool b)

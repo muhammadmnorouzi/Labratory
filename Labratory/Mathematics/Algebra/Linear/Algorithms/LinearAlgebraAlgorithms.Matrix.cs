@@ -301,6 +301,34 @@ public static partial class LinearAlgebraAlgorithms
         return mat.TransferToRowReducedInternal();
     }
 
+    public static bool IsUpperTriangular(this Matrix mat)
+    {
+        bool isUpperTriangular = true;
+        
+        mat.Operate<Matrix , double>((i , j) => {
+            if (i > j && mat.At(i, j).IsZero().Not())
+            {
+                isUpperTriangular = false;
+            }
+        });     
+
+        return isUpperTriangular;  
+    }
+
+    public static bool IsLowerTriangular(this Matrix mat)
+    {
+        bool isLowerTriangular = true;
+        
+        mat.Operate<Matrix , double>((i , j) => {
+            if (i < j && mat.At(i, j).IsZero().Not())
+            {
+                isLowerTriangular = false;
+            }
+        });     
+
+        return isLowerTriangular;  
+    }
+
     public static Matrix SetRow(this Matrix mat, int row, double[] values)
     {
         // TODO: validate row
@@ -311,6 +339,34 @@ public static partial class LinearAlgebraAlgorithms
         for (int j = 0; j < values.Length; j++)
         {
             mat.AtRef(row, j) = values[j];
+        }
+
+        return mat;
+    }
+
+    public static Matrix Pow(this Matrix mat, int exponent)
+    {
+        // TODO: validaate exponent is non-negative
+        // TODO: validaate matrix is square
+        Debug.Assert(exponent >= 0);
+        Debug.Assert(mat.Rows == mat.Cols);
+
+
+        if(exponent == 0)
+        {
+            return mat.Eye();
+        }
+
+        if(exponent == 1)
+        {
+            return mat;
+        }
+
+        Matrix original = mat.Copy<Matrix, double>();
+
+        for (int i = 0; i < exponent ; i++)
+        {
+            mat.Multiplicate(original);
         }
 
         return mat;
