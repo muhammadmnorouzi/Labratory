@@ -1,3 +1,4 @@
+using Labratory.Extensions;
 using Labratory.Mathematics.Algebra.Linear.Core.Abstractions;
 
 namespace Labratory.Mathematics.Algebra.Linear.Core.Concretes;
@@ -35,6 +36,6 @@ public class Matrix : MatrixBase<double>
     public override bool ElementsEqual(double left, double right)
     {
 
-        return Math.Abs(left - right) < double.Epsilon;
+        return Math.Abs(left - right).IsZero();
     }
 }

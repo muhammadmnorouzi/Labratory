@@ -1,4 +1,3 @@
-using Labratory.Exceptions;
 using Labratory.Mathematics.Algebra.Linear.Algorithms;
 using Labratory.Mathematics.Algebra.Linear.Core.Concretes;
 using Shouldly;

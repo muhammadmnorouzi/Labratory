@@ -304,29 +304,31 @@ public static partial class LinearAlgebraAlgorithms
     public static bool IsUpperTriangular(this Matrix mat)
     {
         bool isUpperTriangular = true;
-        
-        mat.Operate<Matrix , double>((i , j) => {
+
+        mat.Operate<Matrix, double>((i, j) =>
+        {
             if (i > j && mat.At(i, j).IsZero().Not())
             {
                 isUpperTriangular = false;
             }
-        });     
+        });
 
-        return isUpperTriangular;  
+        return isUpperTriangular;
     }
 
     public static bool IsLowerTriangular(this Matrix mat)
     {
         bool isLowerTriangular = true;
-        
-        mat.Operate<Matrix , double>((i , j) => {
+
+        mat.Operate<Matrix, double>((i, j) =>
+        {
             if (i < j && mat.At(i, j).IsZero().Not())
             {
                 isLowerTriangular = false;
             }
-        });     
+        });
 
-        return isLowerTriangular;  
+        return isLowerTriangular;
     }
 
     public static Matrix SetRow(this Matrix mat, int row, double[] values)
@@ -352,19 +354,19 @@ public static partial class LinearAlgebraAlgorithms
         Debug.Assert(mat.Rows == mat.Cols);
 
 
-        if(exponent == 0)
+        if (exponent == 0)
         {
             return mat.Eye();
         }
 
-        if(exponent == 1)
+        if (exponent == 1)
         {
             return mat;
         }
 
         Matrix original = mat.Copy<Matrix, double>();
 
-        for (int i = 0; i < exponent ; i++)
+        for (int i = 0; i < exponent; i++)
         {
             mat.Multiplicate(original);
         }

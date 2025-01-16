@@ -46,7 +46,7 @@ where TData : notnull
         {
             if (matrix.Rows == Rows && matrix.Cols == Cols)
             {
-                return this.Generate<MatrixBase<TData>, TData, bool>((i, j) => At(i, j).Equals(matrix.At(i, j))).All(x => x);
+                return this.Generate<MatrixBase<TData>, TData, bool>((i, j) => ElementsEqual(At(i, j), matrix.At(i, j))).All(x => x);
             }
         }
 
