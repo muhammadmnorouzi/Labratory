@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Labratory.Extensions;
 
@@ -15,7 +16,7 @@ public sealed class LaboratoryException : Exception
         _exceptionType = exceptionType;
     }
 
-
+    [DoesNotReturn]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static void ThrowIfNot(bool condition, string message, LaboratoryExceptionType exceptionType = LaboratoryExceptionType.Internal)
     {
@@ -24,10 +25,14 @@ public sealed class LaboratoryException : Exception
             throw new LaboratoryException(exceptionType, message);
         }
     }
-}
 
-public enum LaboratoryExceptionType
-{
-    Internal,
-    InvalidArgument,
+    [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void ThrowIf(bool condition, string message, LaboratoryExceptionType exceptionType = LaboratoryExceptionType.Internal)
+    {
+         if (condition)
+        {
+            throw new LaboratoryException(exceptionType, message);
+        }
+    } 
 }
