@@ -6,8 +6,8 @@ namespace Labratory.Mathematics.Discrete.GraphTheory.Core.Concretes;
 public class Graph : IGraph<Node, Edge, int>
 {
     private readonly HashSet<Node> _nodes = [];
-    private readonly HashSet<Edge> _edges = [];
-    private readonly Dictionary<Node, HashSet<Edge>> _mappings = [];
+    private readonly List<Edge> _edges = [];
+    private readonly Dictionary<Node, List<Edge>> _mappings = [];
 
     public void AddNode(Node node)
     {
@@ -23,16 +23,9 @@ public class Graph : IGraph<Node, Edge, int>
         AddNode(edge.N1);
         AddNode(edge.N2);
 
-        if (_mappings[edge.N1].Contains(edge).Not().Or(_mappings[edge.N2].Contains(edge).Not()))
-        {
-            _mappings[edge.N1].Add(edge);
-            _mappings[edge.N2].Add(edge);
-        }
-
-        if (_edges.Contains(edge).Not())
-        {
-            _edges.Add(edge);
-        }
+        _mappings[edge.N1].Add(edge);
+        _mappings[edge.N2].Add(edge);
+        _edges.Add(edge);
     }
 
     public IEnumerable<Node> Nodes() => _nodes;
