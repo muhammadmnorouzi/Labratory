@@ -1,5 +1,4 @@
-
-using Labratory.Generics;
+using Labratory.Extensions;
 using Shouldly;
 
 namespace Laboratory.Test.Generics;
@@ -13,7 +12,7 @@ public class ExtensionsTests
         int[] numbers = [1, 2, 3];
         int[][] expectedCombinations = [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]];
 
-        foreach (IDictionary<int, int> combination in numbers.Permutate())
+        foreach (IDictionary<int, int> combination in numbers.Permutations())
         {
             expectedCombinations.Any(permutation => permutation.SequenceEqual(combination.Values)).ShouldBe(true);
         }

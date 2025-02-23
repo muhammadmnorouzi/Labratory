@@ -29,7 +29,7 @@ public partial class MatrixTests
     [InlineData(-1, -11)]
     public void ShloudThrowException_WhenCreatingNewMatrix_WithNonPositiveGivenRowsAndColsNumber(int rows, int cols)
     {
-        Assert.Throws<LaboratoryException>(() => new Matrix(rows, cols));
+        _ = Assert.Throws<LaboratoryException>(() => new Matrix(rows, cols));
     }
 
     [Fact]

@@ -6,7 +6,7 @@ namespace Laboratory.Test.Mathematics.Algebra.Linear.Core.Concretes;
 
 public partial class MatrixTests
 {
-    private readonly List<double[,]> _notRowReducedMatrices = new() {
+    private readonly List<double[,]> _notRowReducedMatrices = [
         new double[4, 5] {
             {1, 1, -2, 4, 7},
             {0, 0, -6, 5, 7},
@@ -24,9 +24,9 @@ public partial class MatrixTests
             {1, -2, 3, 3},
             {0, 0, 1, -3},
             {0, 0, 1, 0}},
-    };
+    ];
 
-    private readonly List<double[,]> _rowReducedMatrices = new() {
+    private readonly List<double[,]> _rowReducedMatrices = [
         new double[4, 5] {
             {1, 1, -2, 4, 7},
             {0, 0, 1, 5, 7},
@@ -44,7 +44,7 @@ public partial class MatrixTests
             {1, -2, 3, 3},
             {0, 1, 1, -3},
             {0, 0, 1, 0}},
-    };
+    ];
 
     [Theory]
     [InlineData(0)]

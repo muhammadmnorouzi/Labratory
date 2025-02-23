@@ -60,13 +60,13 @@ where TData : notnull
             const int prime = 101;
             int hash = 31;
 
-            hash = hash * prime + Rows;
-            hash = hash * prime + Cols;
+            hash = (hash * prime) + Rows;
+            hash = (hash * prime) + Cols;
 
             foreach (TData value in Mat)
 
             {
-                hash = hash * prime + value.GetHashCode();
+                hash = (hash * prime) + value.GetHashCode();
             }
 
             return hash;

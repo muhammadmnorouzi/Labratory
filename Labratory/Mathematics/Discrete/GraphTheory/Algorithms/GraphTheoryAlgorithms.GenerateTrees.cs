@@ -62,7 +62,6 @@ public static partial class GraphTheoryAlgorithms
             vertices.RemoveAt(index);
         }
 
-
         // TODO Throw exception
         Debug.Assert(vertices.Count == 2);
 

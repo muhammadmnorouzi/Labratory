@@ -13,7 +13,7 @@ public class Graph : IGraph<Node, Edge, int>
     {
         if (_nodes.Contains(node).Not())
         {
-            _nodes.Add(node);
+            _ = _nodes.Add(node);
             _mappings[node] = [];
         }
     }
@@ -28,10 +28,20 @@ public class Graph : IGraph<Node, Edge, int>
         _edges.Add(edge);
     }
 
-    public IEnumerable<Node> Nodes() => _nodes;
-    public IEnumerable<Edge> EdgesOf(Node node) => _mappings[node];
-    public IEnumerable<Edge> Edges() => _edges;
+    public IEnumerable<Node> Nodes()
+    {
+        return _nodes;
+    }
 
+    public IEnumerable<Edge> EdgesOf(Node node)
+    {
+        return _mappings[node];
+    }
+
+    public IEnumerable<Edge> Edges()
+    {
+        return _edges;
+    }
 
     public static Graph From(IEnumerable<Edge> input)
     {

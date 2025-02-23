@@ -39,24 +39,17 @@ public static partial class LinearAlgebraAlgorithms
     where TMatrix : MatrixBase<TData>
     where TData : notnull
     {
-        if (mat.Rows != mat.Cols)
-        {
-            return false;
-        }
-
-        return mat
+        return mat.Rows == mat.Cols && mat
             .Generate<TMatrix, TData, bool?>((i, j) => mat.At(i, j)?.Equals(mat.At(j, i)))
             .All(x => x == true);
     }
-
-
 
     public static TMatrix Copy<TMatrix, TData>(this TMatrix mat)
     where TMatrix : MatrixBase<TData>
     where TData : notnull
     {
-        TMatrix destination = (TMatrix)mat.New(mat.Rows, mat.Cols);
-        mat.Operate<TMatrix, TData>((i, j) => destination.AtRef(i, j) = mat.At(i, j));
+        var destination = (TMatrix)mat.New(mat.Rows, mat.Cols);
+        _ = mat.Operate<TMatrix, TData>((i, j) => destination.AtRef(i, j) = mat.At(i, j));
 
         return destination;
     }
@@ -65,8 +58,8 @@ public static partial class LinearAlgebraAlgorithms
     where TMatrix : MatrixBase<TData>
     where TData : notnull
     {
-        TMatrix transposed = (TMatrix)mat.New(mat.Cols, mat.Rows);
-        mat.Operate<TMatrix, TData>((i, j) => transposed.AtRef(j, i) = mat.At(i, j));
+        var transposed = (TMatrix)mat.New(mat.Cols, mat.Rows);
+        _ = mat.Operate<TMatrix, TData>((i, j) => transposed.AtRef(j, i) = mat.At(i, j));
         return transposed;
     }
 
@@ -74,7 +67,7 @@ public static partial class LinearAlgebraAlgorithms
     where TMatrix : MatrixBase<TData>
     where TData : notnull
     {
-        mat.Operate<TMatrix, TData>((i, j) => mat.AtRef(i, j) = value);
+        _ = mat.Operate<TMatrix, TData>((i, j) => mat.AtRef(i, j) = value);
         return mat;
     }
 
@@ -116,7 +109,7 @@ public static partial class LinearAlgebraAlgorithms
 
         int rows = rowRange.End.Value - rowRange.Start.Value + 1;
         int cols = colRange.End.Value - colRange.Start.Value + 1;
-        TMatrix subMatrix = (TMatrix)mat.New(rows, cols);
+        var subMatrix = (TMatrix)mat.New(rows, cols);
 
         for (int i = 0; i < rows; i++)
         {
@@ -137,7 +130,7 @@ public static partial class LinearAlgebraAlgorithms
 
         int rows = mat.Rows;
         int cols = mat.Cols;
-        TMatrix subMatrix = (TMatrix)mat.New(rows - 1, cols - 1);
+        var subMatrix = (TMatrix)mat.New(rows - 1, cols - 1);
 
         int rowIndex = 0;
 

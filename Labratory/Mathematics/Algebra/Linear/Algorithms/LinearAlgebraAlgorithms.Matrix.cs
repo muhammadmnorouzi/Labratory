@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using Labratory.Exceptions;
 using Labratory.Extensions;
-using Labratory.Generics;
 using Labratory.Mathematics.Algebra.Linear.Core.Concretes;
 
 namespace Labratory.Mathematics.Algebra.Linear.Algorithms;
@@ -36,20 +35,14 @@ public static partial class LinearAlgebraAlgorithms
 
     public static bool IsSkewSymmetric(this Matrix mat)
     {
-        if (mat.Rows != mat.Cols)
-        {
-            return false;
-        }
-
-        return mat
+        return mat.Rows == mat.Cols && mat
             .Generate<Matrix, double, bool?>((i, j) => mat.At(i, j).Equals(-mat.At(j, i)))
             .All(x => x == true);
     }
 
-
     public static Matrix Multiplicate(this Matrix mat, double value)
     {
-        mat.Operate<Matrix, double>((i, j) => mat.AtRef(i, j) *= value);
+        _ = mat.Operate<Matrix, double>((i, j) => mat.AtRef(i, j) *= value);
         return mat;
     }
 
@@ -59,14 +52,14 @@ public static partial class LinearAlgebraAlgorithms
         Debug.Assert(left.Rows == right.Rows);
         Debug.Assert(left.Cols == right.Cols);
 
-        left.Operate<Matrix, double>((i, j) => left.AtRef(i, j) = left.At(i, j) + right.At(i, j));
+        _ = left.Operate<Matrix, double>((i, j) => left.AtRef(i, j) = left.At(i, j) + right.At(i, j));
 
         return left;
     }
 
     public static Matrix Add(this Matrix mat, double value)
     {
-        mat.Operate<Matrix, double>((i, j) => mat.AtRef(i, j) += value);
+        _ = mat.Operate<Matrix, double>((i, j) => mat.AtRef(i, j) += value);
         return mat;
     }
 
@@ -76,14 +69,14 @@ public static partial class LinearAlgebraAlgorithms
         Debug.Assert(left.Rows == right.Rows);
         Debug.Assert(left.Cols == right.Cols);
 
-        left.Operate<Matrix, double>((i, j) => left.AtRef(i, j) = left.At(i, j) - right.At(i, j));
+        _ = left.Operate<Matrix, double>((i, j) => left.AtRef(i, j) = left.At(i, j) - right.At(i, j));
 
         return left;
     }
 
     public static Matrix Subtract(this Matrix mat, double value)
     {
-        mat.Operate<Matrix, double>((i, j) => mat.AtRef(i, j) -= value);
+        _ = mat.Operate<Matrix, double>((i, j) => mat.AtRef(i, j) -= value);
 
         return mat;
     }
@@ -94,21 +87,21 @@ public static partial class LinearAlgebraAlgorithms
         Debug.Assert(left.Rows == right.Rows);
         Debug.Assert(left.Cols == right.Cols);
 
-        left.Operate<Matrix, double>((i, j) => left.AtRef(i, j) = left.At(i, j) * right.At(i, j));
+        _ = left.Operate<Matrix, double>((i, j) => left.AtRef(i, j) = left.At(i, j) * right.At(i, j));
 
         return left;
     }
 
     public static Matrix Negate(this Matrix mat)
     {
-        mat.Operate<Matrix, double>((i, j) => mat.AtRef(i, j) = -mat.At(i, j));
+        _ = mat.Operate<Matrix, double>((i, j) => mat.AtRef(i, j) = -mat.At(i, j));
 
         return mat;
     }
 
     public static Matrix Randomize(this Matrix mat)
     {
-        mat.Operate<Matrix, double>((i, j) => mat.AtRef(i, j) = Random.Shared.NextDouble());
+        _ = mat.Operate<Matrix, double>((i, j) => mat.AtRef(i, j) = Random.Shared.NextDouble());
 
         return mat;
     }
@@ -155,9 +148,10 @@ public static partial class LinearAlgebraAlgorithms
         {
             return mat.At(0, 0);
         }
+
         if (mat.Rows == 2)
         {
-            det = mat.At(0, 0) * mat.At(1, 1) - mat.At(0, 1) * mat.At(1, 0);
+            det = (mat.At(0, 0) * mat.At(1, 1)) - (mat.At(0, 1) * mat.At(1, 0));
         }
         else
         {
@@ -172,7 +166,7 @@ public static partial class LinearAlgebraAlgorithms
 
     public static double DeterminantPermutation(this Matrix mat)
     {
-        IEnumerable<IDictionary<int, int>> permutations = Enumerable.Range(0, mat.Rows).Permutate();
+        IEnumerable<IDictionary<int, int>> permutations = Enumerable.Range(0, mat.Rows).Permutations();
 
         double determinant = 0;
 
@@ -233,7 +227,6 @@ public static partial class LinearAlgebraAlgorithms
             {
                 allOtherShouldBeZero = true;
             }
-
         }
 
         return true;
@@ -256,7 +249,9 @@ public static partial class LinearAlgebraAlgorithms
             for (int j = i + 1; j < permutation.Length; j++)
             {
                 if (permutation[i] > permutation[j])
+                {
                     inversions++;
+                }
             }
         }
 
@@ -305,7 +300,7 @@ public static partial class LinearAlgebraAlgorithms
     {
         bool isUpperTriangular = true;
 
-        mat.Operate<Matrix, double>((i, j) =>
+        _ = mat.Operate<Matrix, double>((i, j) =>
         {
             if (i > j && mat.At(i, j).IsZero().Not())
             {
@@ -320,7 +315,7 @@ public static partial class LinearAlgebraAlgorithms
     {
         bool isLowerTriangular = true;
 
-        mat.Operate<Matrix, double>((i, j) =>
+        _ = mat.Operate<Matrix, double>((i, j) =>
         {
             if (i < j && mat.At(i, j).IsZero().Not())
             {
@@ -353,7 +348,6 @@ public static partial class LinearAlgebraAlgorithms
         Debug.Assert(exponent >= 0);
         Debug.Assert(mat.Rows == mat.Cols);
 
-
         if (exponent == 0)
         {
             return mat.Eye();
@@ -368,7 +362,7 @@ public static partial class LinearAlgebraAlgorithms
 
         for (int i = 0; i < exponent; i++)
         {
-            mat.Multiplicate(original);
+            _ = mat.Multiplicate(original);
         }
 
         return mat;
@@ -398,23 +392,26 @@ public static partial class LinearAlgebraAlgorithms
 
         if (pivotRow != rowToProcess)
         {
-            mat.SwapRows(rowToProcess, pivotRow);
+            _ = mat.SwapRows(rowToProcess, pivotRow);
         }
 
         double pivotValue = mat.At(rowToProcess, colToProcess);
-        mat.ScaleRow(rowToProcess, 1.0D / pivotValue);
+        _ = mat.ScaleRow(rowToProcess, 1.0D / pivotValue);
 
         for (int i = 0; i < mat.Rows; i++)
         {
-            if (i == rowToProcess) continue;
+            if (i == rowToProcess)
+            {
+                continue;
+            }
 
             double factor = mat.At(i, colToProcess);
 
             double[] newRowValues = mat.Row<Matrix, double>(i)
-                .Select((value, col) => value - factor * mat.At(rowToProcess, col))
+                .Select((value, col) => value - (factor * mat.At(rowToProcess, col)))
                 .ToArray();
 
-            mat.SetRow(i, newRowValues);
+            _ = mat.SetRow(i, newRowValues);
         }
 
         return mat.TransferToRowReducedInternal(colToProcess + 1, rowToProcess + 1);

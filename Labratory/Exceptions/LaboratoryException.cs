@@ -6,14 +6,13 @@ namespace Labratory.Exceptions;
 
 public sealed class LaboratoryException : Exception
 {
-    public LaboratoryExceptionType ExceptionType => _exceptionType;
-    private readonly LaboratoryExceptionType _exceptionType;
+    public LaboratoryExceptionType ExceptionType { get; }
 
     internal LaboratoryException(
         LaboratoryExceptionType exceptionType,
         string message) : base(message)
     {
-        _exceptionType = exceptionType;
+        ExceptionType = exceptionType;
     }
 
     [DoesNotReturn]
@@ -30,9 +29,9 @@ public sealed class LaboratoryException : Exception
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ThrowIf(bool condition, string message, LaboratoryExceptionType exceptionType = LaboratoryExceptionType.Internal)
     {
-         if (condition)
+        if (condition)
         {
             throw new LaboratoryException(exceptionType, message);
         }
-    } 
+    }
 }

@@ -11,7 +11,7 @@ public partial class MatrixTests
     public void IsEye_ShouldReturnTrue_ForEyeMatrix()
     {
         Matrix matrix = new(10, 10);
-        matrix.Eye();
+        _ = matrix.Eye();
         matrix.IsEye(value: 1.0D).ShouldBeTrue();
     }
 
@@ -19,7 +19,7 @@ public partial class MatrixTests
     public void IsEye_ShouldReturnFalse_ForNoneEyeMatrix()
     {
         Matrix matrix = new(10, 10);
-        matrix.Randomize();
+        _ = matrix.Randomize();
         matrix.IsEye(value: 1.0D).ShouldBeFalse();
     }
 
@@ -27,7 +27,7 @@ public partial class MatrixTests
     public void IsEye_ShouldReturnFalse_ForNonEyeMatrix2()
     {
         Matrix matrix = new(10, 10);
-        matrix.Eye();
+        _ = matrix.Eye();
         matrix.AtRef(1, 5) = 1;
         matrix.IsEye(value: 1.0D).ShouldBeFalse();
     }
@@ -38,6 +38,6 @@ public partial class MatrixTests
     public void IsEye_ShouldThrowLaboratoryException_ForNonSquareMatrix(int rows, int cols)
     {
         Matrix matrix = new(rows, cols);
-        Assert.Throws<LaboratoryException>(() => matrix.IsEye(value: 1.0D));
+        _ = Assert.Throws<LaboratoryException>(() => matrix.IsEye(value: 1.0D));
     }
 }

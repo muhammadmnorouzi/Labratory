@@ -33,7 +33,7 @@ public partial class MatrixTests
     public void TransferToRowReduced_ShouldReturnCorrectlyRowReducedMatrix(int matIndex, int rowReducedMatIndex)
     {
         Matrix mat = new(_matrices[matIndex]);
-        mat.TransferToRowReduced();
+        _ = mat.TransferToRowReduced();
 
         mat.Equals(new Matrix(_matricesRowReduced[rowReducedMatIndex]))
            .ShouldBeTrue();

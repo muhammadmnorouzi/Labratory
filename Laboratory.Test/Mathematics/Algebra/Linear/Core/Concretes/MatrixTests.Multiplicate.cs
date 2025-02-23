@@ -90,9 +90,8 @@ public partial class MatrixTests
         Matrix right = new Matrix(c, d).Randomize();
 
         // Then
-        Should.Throw<LaboratoryException>(() => left.Multiplicate(right));
+        _ = Should.Throw<LaboratoryException>(() => left.Multiplicate(right));
     }
-
 
     [Fact]
     public void Multiplicate_ShouldWorkCorrectly_ForLargeMatrices()
@@ -106,7 +105,7 @@ public partial class MatrixTests
         Matrix right = new Matrix(b, c).Randomize();
 
         // Then
-        Should.NotThrow(() => left.Multiplicate(right));
+        _ = Should.NotThrow(() => left.Multiplicate(right));
     }
 
     [Fact]
@@ -117,7 +116,8 @@ public partial class MatrixTests
         Matrix mat2 = new Matrix(25, 15).Randomize();
         Matrix mat3 = new Matrix(15, 20).Randomize();
 
-        Matrix expected = mat1.Multiplicate(mat2).Multiplicate(mat3); ;
+        Matrix expected = mat1.Multiplicate(mat2).Multiplicate(mat3);
+        ;
 
         // When
         Matrix result = mat1.Multiplicate(mat2.Multiplicate(mat3));

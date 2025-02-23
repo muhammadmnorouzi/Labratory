@@ -14,7 +14,7 @@ public partial class MatrixTests
     public void IsFilled_ShouldReturnTrue_ForFilledMatrix(double value)
     {
         Matrix matrix = new(Random.Shared.Next(1, 10), Random.Shared.Next(1, 10));
-        matrix.Fill(value);
+        _ = matrix.Fill(value);
         matrix.IsFilled(value).ShouldBeTrue();
     }
 
@@ -26,7 +26,7 @@ public partial class MatrixTests
     public void IsFilled_ShouldReturnFalse_ForNotFilledMatrix(double value)
     {
         Matrix matrix = new(Random.Shared.Next(1, 10), Random.Shared.Next(1, 10));
-        matrix.Randomize();
+        _ = matrix.Randomize();
         matrix.IsFilled(value).ShouldBeFalse();
     }
 }
