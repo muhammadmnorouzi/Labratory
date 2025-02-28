@@ -43,6 +43,7 @@ public static partial class Algorithms
 
     public static Graph GenerateFromGraphicSequence(params int[] seq)
     {
+        // TODO throw exception
         Debug.Assert(IsGraphic(seq), "Input sequence is not graphic!");
 
         seq = [.. seq.OrderDescending()];
@@ -53,6 +54,7 @@ public static partial class Algorithms
         {
             graph.AddNode(i);
             int k = seq[i];
+            seq[i] -= k;
 
             if (k == 0)
             {
@@ -66,6 +68,8 @@ public static partial class Algorithms
                 --k;
             }
         }
+
+        Debug.Assert(seq.All(item => item == 0) , "Failed to generate graph properly!");
 
         return graph;
     }
