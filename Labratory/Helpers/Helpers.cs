@@ -16,9 +16,7 @@ public static class Helpers
     {
         LaboratoryException.ThrowIf(keys.Length == 0, "CombiningHash of zero elements is not valid!");
 
-        int[] hashes = keys
-            .Select(x => x.GetHashCode())
-            .ToArray();
+        int[] hashes = [.. keys.Select(x => x.GetHashCode())];
 
         if (sort)
         {

@@ -20,7 +20,7 @@ public struct Node(int data) : INode<int>
 
     public override readonly string ToString()
     {
-        return Id.ToString();
+        return $"{Id}";
     }
 
     public static implicit operator Node(int id)

@@ -16,7 +16,7 @@ public struct Edge(Node n1, Node n2) : IEdge<Node, int>
 
     public override string ToString()
     {
-        return $"<{N1} - {N2}>";
+        return $"({N1} , {N2})";
     }
 
     public readonly Node Other(Node node)
@@ -34,6 +34,16 @@ public struct Edge(Node n1, Node n2) : IEdge<Node, int>
             // TODO Throw Proper Exception
             throw new NotImplementedException();
         }
+    }
+
+    public static implicit operator Edge((int,int) edge)
+    {
+        return new Edge(edge.Item1, edge.Item2);
+    }
+
+    public static implicit operator Edge((Node, Node) edge)
+    {
+        return new Edge(edge.Item1, edge.Item2);
     }
 
     public override readonly int GetHashCode()

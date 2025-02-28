@@ -1,6 +1,6 @@
 namespace Labratory.Mathematics.Algebra.Linear.Algorithms;
 
-public static partial class LinearAlgebraAlgorithms
+public static partial class Algorithms
 {
 
 }

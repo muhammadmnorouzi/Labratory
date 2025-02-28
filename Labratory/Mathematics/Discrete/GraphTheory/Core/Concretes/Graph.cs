@@ -42,6 +42,20 @@ public class Graph : IGraph<Node, Edge, int>
     {
         return _edges;
     }
+    public void Print(TextWriter stream)
+    {
+        stream.WriteLine(
+            $"""
+            Graph with {_nodes.Count} nodes and {_edges.Count} edges.
+            Edges: [{string.Join(',', _edges)}]
+            Nodes: [{string.Join(',', _nodes)}]
+            """);
+    }
+
+    public override string ToString()
+    {
+        return $"[{string.Join(',', _edges)}]";
+    }
 
     public static Graph From(IEnumerable<Edge> input)
     {
@@ -53,20 +67,5 @@ public class Graph : IGraph<Node, Edge, int>
         }
 
         return g;
-    }
-
-    public void Print(TextWriter stream)
-    {
-        foreach (Node node in Nodes())
-        {
-            stream.Write($" {node} => ");
-
-            foreach (Edge edge in EdgesOf(node))
-            {
-                stream.Write($"{edge.Other(node)} | ");
-            }
-
-            stream.WriteLine();
-        }
     }
 }

@@ -5,7 +5,7 @@ using Labratory.Mathematics.Algebra.Linear.Core.Abstractions;
 
 namespace Labratory.Mathematics.Algebra.Linear.Algorithms;
 
-public static partial class LinearAlgebraAlgorithms
+public static partial class Algorithms
 {
     public static TMatrix Operate<TMatrix, TData>(this TMatrix mat, Action<int, int> operation)
     where TMatrix : MatrixBase<TData>

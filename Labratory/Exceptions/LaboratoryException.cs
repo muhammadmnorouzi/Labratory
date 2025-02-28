@@ -34,4 +34,11 @@ public sealed class LaboratoryException : Exception
             throw new LaboratoryException(exceptionType, message);
         }
     }
+
+    [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void Throw(string message, LaboratoryExceptionType exceptionType = LaboratoryExceptionType.Internal)
+    {
+            throw new LaboratoryException(exceptionType, message);
+    }
 }

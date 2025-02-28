@@ -4,7 +4,7 @@ using Labratory.Mathematics.Discrete.GraphTheory.Core.Concretes;
 
 namespace Labratory.Mathematics.Discrete.GraphTheory.Algorithms;
 
-public static partial class GraphTheoryAlgorithms
+public static partial class Algorithms
 {
     public static IEnumerable<IEnumerable<int>> GeneratePruferSequence(int vertices)
     {
@@ -74,7 +74,7 @@ public static partial class GraphTheoryAlgorithms
     {
         // TODO Throw exception
         Debug.Assert(seq.Any());
-
+        seq = seq.Distinct();
         int seqSize = seq.Count();
         int vertexCount = seqSize + 2;
 

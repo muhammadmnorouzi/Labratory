@@ -5,7 +5,7 @@ using Labratory.Mathematics.Algebra.Linear.Core.Concretes;
 
 namespace Labratory.Mathematics.Algebra.Linear.Algorithms;
 
-public static partial class LinearAlgebraAlgorithms
+public static partial class Algorithms
 {
     public static Matrix Multiplicate(this Matrix left, Matrix right)
     {
@@ -407,9 +407,7 @@ public static partial class LinearAlgebraAlgorithms
 
             double factor = mat.At(i, colToProcess);
 
-            double[] newRowValues = mat.Row<Matrix, double>(i)
-                .Select((value, col) => value - (factor * mat.At(rowToProcess, col)))
-                .ToArray();
+            double[] newRowValues = [.. mat.Row<Matrix, double>(i).Select((value, col) => value - (factor * mat.At(rowToProcess, col)))];
 
             _ = mat.SetRow(i, newRowValues);
         }
